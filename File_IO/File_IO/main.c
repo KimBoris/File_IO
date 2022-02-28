@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS;
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>	
 #include <string.h>
@@ -108,7 +108,7 @@ I/O지점이 한칸 밀린다.
 를 사용하는 방법이다
 
 *또한, 원래 '폴더'가 아닌 '디렉토리'였는데 윈도우 95에서 바꿔버림
-
+*/
 
 
 
@@ -174,27 +174,251 @@ I/O지점이 한칸 밀린다.
 //
 //	return 0;
 //}
+//
+//int main(void)
+//{
+//	//'w' -> 무조건 생성. 이미 존재하면 삭제하고 생성.
+//	//FILE* fp = fopen_s(&fp, "Test.txt", "w");
+//
+//	FILE *fp = fopen( "TXT", "w");  //중간 매개변수에 CON을 적는다면
+//										 //파일이 열리지않고 콘솔에 작성한 문자가 출력된다. 
+//										//CON = 콘솔이라는 추상적인 단어
+//										//PRN = 프린터로 찍는것
+//										//COM1 = 시리얼 포트로 데이터나간다. 
+//	//이런것이 디바이스 파일이다.
+//
+//										
+//
+//	fprintf(fp,  "HelloFile I/O");
+//	fclose(fp);
+//	//system("Text.txt");
+//
+//
+//
+//
+//	return 0;
+//}
 
-int main(void)
+
+//Fileopen01.c
+//void main()
+//{
+//	//파일 제어에 필요한 FILE구조체에 대한 포인터 변수 선언 및 정의
+//	FILE* fp = NULL;
+//	//test.txt 파일을 쓰기 모드로 개방. 단, 같은 이름의 파일이 이미
+//	//존재하면 삭제(크기를 0으로 수정) 하고 새 파일을 형성한다.
+//	//없다면 새로 생성한다.
+//	fp = fopen("Test.txt", "w");
+//	if (fp == NULL)
+//	{
+//		puts("ERROR : Failed to open file!");
+//		return;
+//	}
+//
+//	//TODO : FILE I/O
+//
+//
+//	//개방한 파일을 닫는다.
+//	fclose(fp);
+//}
+
+
+
+
+// _fcloseall()
+
+//void main()
+//{
+//	FILE* fp = NULL;
+//	int nClosed = 0;
+//
+//	fopen("Test1.txt", "w");
+//	fopen("Test2.txt", "w");
+//	fopen("Test3.txt", "w");
+//
+//	//지금까지 개방한 파일들을 '모두'닫는다.
+//	nClosed = _fcloseall();
+//	printf("%d", nClosed);
+//
+//}
+
+
+
+
+
+//filefprint01.c
+//void main()
+//{
+//	FILE* fp = NULL;
+//	//현재 경로에 Test.txt파일을 생성한다.
+//	fp = fopen("Test.txt", "w");
+//	fprintf(fp, "%s\n", "Test string");
+//	fprintf(fp, "%s\n", "Hello world!");
+//
+//	//파일을 닫고 메모장으로 확인한다.
+//	fclose(fp);
+//	system("notepad.exe test.txt");
+//
+//}
+
+
+//filefscanf01.c
+//
+//void main()
+//{
+//	int nData = 0;
+//	char szBuffer[128] = { 0 };
+//	FILE* fp = NULL;
+//
+//	//'읽기' 실험을 위한 파일을 생성하고 'Test'라는 문자열을 쓴다.
+//	fp = fopen("fscanfTest.txt", "w");
+//	fprintf(fp, "%d,%s\n", 20, "Test");
+//	fclose(fp);
+//
+//	//파일을 다시 열고 저장된 내용을 읽어온다.
+//	fp = fopen("fscanfTest.txt", "r");
+//	fscanf(fp, "%d,%s", &nData, &szBuffer);
+//	fclose(fp);
+//
+//	//읽어온 내용을 화면에 출력
+//	printf("%d, %s\n", nData, szBuffer);
+//	system("notepad.exe fcanfTest.txt");
+//}
+
+
+
+
+//filegetc()
+//void main()
+//{
+//	FILE* fp = NULL;
+//	char ch;
+//
+//	//현재 경로에 Test.txt파일을 생성하고 문자열을 쓴다.
+//	fp = fopen("Test.txt", "w");
+//	fputs("Test string!", fp);
+//	fclose(fp);
+//
+//	fp = fopen("Test.txt", "r");
+//	if (fp == NULL)
+//	{
+//		return;
+//	}
+//
+//	//파일에서 한글자씩 읽어와 다시 한 글자씩 출력한다.
+//	while ((ch = fgetc(fp)) != EOF)
+//	{
+//		putchar(ch);
+//
+//	}  
+//		fclose(fp);
+//}
+
+
+
+
+
+
+
+
+//Filefgets01.c
+
+//void main()
+//{
+//	FILE* fp = NULL;
+//	char szBuffer[512] = { 0 };
+//
+//	//파일을 생성해 여러 행의 문자열을 쓴 후 닫는다.
+//	fp = fopen("Test.txt", "w");
+//	fputs("Test\n", fp);
+//	fputs("String\n", fp);
+//	fputs("Data\n", fp);
+//	fclose(fp);
+//
+//	fp = fopen("Test.txt", "r");
+//	if (fp == NULL)
+//	{
+//		return;
+//	}
+//	//파일에서 한 행씩 읽어온다..
+//	while (fgets(szBuffer, sizeof(szBuffer), fp))
+//	{
+//		printf("%s", szBuffer);
+//		memset(szBuffer, 0, sizeof(szBuffer));
+//	}
+//	fclose(fp);
+//}
+
+
+
+
+//fflush()
+//void main()
+//{
+//	//표준 입력장치 파일(stdin)을 가리키는 포인터 변수 선언 및 정의
+//	FILE *fp = stdin;
+//	printf("Input string : ");
+//
+//	//사용자로부터 '문자열'을 입력받은 후 첫 글자를 읽어와 출력한다.
+//	printf("getchar() - %c\n", getchar());
+//
+//	//버퍼에 남아있는 문자의 개수와 내용에 대한 정보를 출력한다.
+//	printf("[%d] %s", fp->_cnt, fp->_base);
+//	printf("READ : %d\n", fp->_ptr - fp->_base);
+//	//다시 한 글자를 읽어온 후 달라진 내용을 확인한다.
+//	printf("%\n\ngetchar( ) - %c\n", getchar());
+//	printf("[%d] %s", fp->_cnt, fp->_base);
+//	printf("READ : %d\n", fp->_ptr - fp->_base);
+//
+//	//파일 입출력 버퍼를 초기화한 후 결과를 확인한다.
+//	fflush(fp);
+//	printf("%\n\nAfter flushing\n[%d] %s", fp->_cnt - fp->_base);
+//
+//}
+
+
+
+
+
+
+
+typedef struct _USERDATA
 {
-	//'w' -> 무조건 생성. 이미 존재하면 삭제하고 생성.
-	//FILE* fp = fopen_s(&fp, "Test.txt", "w");
+	char szName[16];
+	char szPhone[16];
 
-	FILE* fp = fopen_s(&fp, "CON", "w");  //중간 매개변수에 CON을 적는다면
-										 //파일이 열리지않고 콘솔에 작성한 문자가 출력된다. 
-										//CON = 콘솔이라는 추상적인 단어
-										//PRN = 프린터로 찍는것
-										//COM1 = 시리얼 포트로 데이터나간다. 
-	//이런것이 디바이스 파일이다.
+}USERDATA;
 
-										
+//void main()
+//{
+//	FILE* fp = NULL;
+//	USERDATA UserData = { "Bong-Ki", "123-1234" };
+//
+//
+//	//바이너리 쓰기 모드로 파일을 개방(생성)한다.
+//	fp = fopen("Test.dat", "wb");
+//	if (fp == NULL)
+//		return;
+//
+//	//구조체를 한번에 바이너리 모드로 파일에 쓴다.
+//	fwrite(&UserData, sizeof(USERDATA), 1, fp);
+//	fclose(fp);
+//}
 
-	fprintf_s(fp,  "HelloFile I/O");
+void main()
+{
+	FILE* fp = NULL;
+	USERDATA UserData = { 0 };
+
+	//바이너리 읽기 모드로 파일을 개방한다.
+	//만일 파일이 없다면 파일을 여는데 실패한다.
+	fp = fopen("Test.dat", "rb");
+	if (fp == NULL)
+		return;
+
+	//파일에서 바이너리 모드로 구조체를 한 번에 읽고  출력한다.
+	fread(&UserData, sizeof(UserData), 1, fp);
+	puts(UserData.szName);
+	puts(UserData.szPhone);
 	fclose(fp);
-	system("Text.txt");
-
-
-
-
-	return 0;
 }
