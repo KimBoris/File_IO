@@ -404,21 +404,42 @@ typedef struct _USERDATA
 //	fwrite(&UserData, sizeof(USERDATA), 1, fp);
 //	fclose(fp);
 //}
+//
+//void main()
+//{
+//	FILE* fp = NULL;
+//	USERDATA UserData = { 0 };
+//
+//	//바이너리 읽기 모드로 파일을 개방한다.
+//	//만일 파일이 없다면 파일을 여는데 실패한다.
+//	fp = fopen("Test.dat", "rb");
+//	if (fp == NULL)
+//		return;
+//
+//	//파일에서 바이너리 모드로 구조체를 한 번에 읽고  출력한다.
+//	fread(&UserData, sizeof(UserData), 1, fp);
+//	puts(UserData.szName);
+//	puts(UserData.szPhone);
+//	fclose(fp);
+//}
+
+
+
+
+//fileseek.01
 
 void main()
 {
 	FILE* fp = NULL;
-	USERDATA UserData = { 0 };
-
-	//바이너리 읽기 모드로 파일을 개방한다.
-	//만일 파일이 없다면 파일을 여는데 실패한다.
+	//바이너리 읽기모드로 파일을 개방한다.
 	fp = fopen("Test.dat", "rb");
-	if (fp == NULL)
-		return;
 
-	//파일에서 바이너리 모드로 구조체를 한 번에 읽고  출력한다.
-	fread(&UserData, sizeof(UserData), 1, fp);
-	puts(UserData.szName);
-	puts(UserData.szPhone);
+	//파일 입출력 포인터를 파일의 끝으로 이동시킨다.
+	fseek(fp, 0, SEEK_END);
+
+	//파일 포인터의 현재 위치를 출력.
+	//앞서 파일 입출력 포인터를 맨 끝으로 옮겼으므로 파일 크기를 알 수 있다.
+	printf("size of Test.dat : %u\n", ftell(fp));
+
 	fclose(fp);
 }
